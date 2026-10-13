@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-redteam"
+version = "0.1.0"
+description = "Adversarial test harness for AI agent apps: labeled attack packs, a deterministic marker judge, and a score you can gate CI on."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Anusha Mukka" }]
+keywords = ["ai-agents", "red-team", "prompt-injection", "security", "llm", "ai-safety", "testing"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+lint = ["ruff>=0.4"]
+
+[project.scripts]
+agent-redteam = "agent_redteam.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/anushamukka9/agent-redteam"
+Issues = "https://github.com/anushamukka9/agent-redteam/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent_redteam"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
