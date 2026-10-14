@@ -21,7 +21,7 @@ from agent_redteam.packs import (
 )
 from agent_redteam.runner import load_agent, run_case, run_cases, run_pack
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "AttackCase",

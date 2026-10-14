@@ -22,6 +22,18 @@ when the attack success rate is above `--fail-on` (default 0.0), so
 the vulnerable run fails and the guarded run passes, exactly like a
 CI gate.
 
+The second pack works the same way, against poisoned tool
+descriptions instead of poisoned user turns:
+
+```bash
+agent-redteam run --pack tool-poisoning --agent vulnerable
+agent-redteam run --pack tool-poisoning --agent guarded
+```
+
+There the vulnerable agent breaches all 16, because it treats tool
+descriptions as trusted instructions. The guarded agent holds all
+16 and still passes the controls with legitimate descriptions.
+
 ## Run it against your agent
 
 Your agent can be a function, an object with `respond` or `run`, or
