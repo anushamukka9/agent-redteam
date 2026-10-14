@@ -16,7 +16,10 @@ from pathlib import Path
 from agent_redteam.models import AttackCase
 
 _PACKS_DIR = Path(__file__).resolve().parent / "packs"
-_BUILTIN = {"prompt-injection": _PACKS_DIR / "prompt_injection.json"}
+_BUILTIN = {
+    "prompt-injection": _PACKS_DIR / "prompt_injection.json",
+    "tool-poisoning": _PACKS_DIR / "tool_poisoning.json",
+}
 
 
 class PackNotFoundError(KeyError):

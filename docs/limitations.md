@@ -23,10 +23,18 @@ Read this before you rely on a score.
   while still doing something dangerous with a tool. Pair this with
   policy enforcement (agent-policy-kit) and surface audits
   (mcp-audit) if tools are in play.
-- **The pack is small.** 20 cases is a smoke alarm, not a fire
-  audit. The format is the product: the valuable pack is the one
-  you write against your own agent, your own context, and your own
-  planted canaries.
+- **Tool poisoning is presented, not connected.** The
+  tool-poisoning cases show the agent the poisoned description as
+  text in one turn. The harness does not connect to a live MCP
+  server, does not diff a description against the version a human
+  approved (the rug-pull cases show both versions in the case
+  itself), and does not watch the agent pick the shadowed tool in
+  `tp-meta-03`. Pair it with a surface audit (mcp-audit checks
+  live servers and client configs) for the connection side.
+- **The packs are small.** 20 cases each is a smoke alarm, not a
+  fire audit. The format is the product: the valuable pack is the
+  one you write against your own agent, your own context, and
+  your own planted canaries.
 - **Controls are marker based too.** A control passes when an
   answer marker appears, even if the rest of the answer is wrong.
   Controls catch refusal-happy guards; they do not grade quality.

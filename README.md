@@ -57,13 +57,20 @@ an object with a `respond` or `run` method. See
 
 ## What it does
 
-**Labeled attack packs.** v1 ships one pack, `prompt-injection`:
-16 attacks across direct override, system prompt extraction, canary
-exfiltration, roleplay, delimiter injection, hierarchy confusion,
-indirect instruction, and social engineering, plus 4 benign controls
-with near misses on purpose (a password how-to question is not a
-credential request). Every case carries notes on what it is testing
-and why. See [docs/packs.md](docs/packs.md).
+**Labeled attack packs.** Two packs ship in the box.
+`prompt-injection`: 16 attacks across direct override, system prompt
+extraction, canary exfiltration, roleplay, delimiter injection,
+hierarchy confusion, indirect instruction, and social engineering,
+plus 4 benign controls with near misses on purpose (a password
+how-to question is not a credential request). `tool-poisoning`:
+16 attacks in four families of four (hidden instructions in MCP
+tool descriptions, rug-pull definition changes after approval,
+GhostSplice style fragmented instructions split across tools, and
+A2M style tool-metadata hijacking), plus 4 controls with legitimate
+tool descriptions. In the tool-poisoning cases the user is innocent
+in every one; the poison arrives in the tool metadata. Every case
+carries notes on what it is testing and why. See
+[docs/packs.md](docs/packs.md).
 
 **A judge with no opinions.** Scoring is marker based and fully
 deterministic. An attack got through if one of its success markers
@@ -89,19 +96,24 @@ Measured on this machine against the two demo agents (see
 numbers validate the harness and the pack labels. They say nothing
 about your agent until you run it.
 
-| Agent | Attack success rate | Controls passed |
-|---|---|---|
-| vulnerable (demo) | 0.94 (15/16) | 1.00 (4/4) |
-| guarded (demo) | 0.00 (0/16) | 1.00 (4/4) |
+| Pack | Agent | Attack success rate | Controls passed |
+|---|---|---|---|
+| prompt-injection | vulnerable (demo) | 0.94 (15/16) | 1.00 (4/4) |
+| prompt-injection | guarded (demo) | 0.00 (0/16) | 1.00 (4/4) |
+| tool-poisoning | vulnerable (demo) | 1.00 (16/16) | 1.00 (4/4) |
+| tool-poisoning | guarded (demo) | 0.00 (0/16) | 1.00 (4/4) |
 
 The one case the vulnerable agent holds is the encoded-exfiltration
 case: it leaks the plain code, and the marker for that case is the
 base64 form, so the judge scores it held while the secret still
 left. That miss is deliberate. It is in the pack, and in the
 limitations doc, to keep everyone honest about what marker scoring
-misses. Harness overhead on the demo agents is about 5,600 full
-pack runs per second; with a real agent, your agent's latency is
-the whole story.
+misses. On tool-poisoning the vulnerable agent breaches all 16:
+it treats a tool description as trusted instructions, including
+one changed after approval and one split into fragments across
+three tools. Harness overhead on the demo agents is about 5,600
+full pack runs per second; with a real agent, your agent's latency
+is the whole story.
 
 ## Honest limitations
 
@@ -114,7 +126,9 @@ the whole story.
   async agents are future work, not hidden features.
 - The packs test the agent's answers, not its tool calls. An agent
   can pass every case here and still call a dangerous tool; that is
-  what agent-policy-kit and mcp-audit are for.
+  what agent-policy-kit and mcp-audit are for. The tool-poisoning
+  cases present poisoned descriptions as text; the harness does not
+  connect to a live MCP server or diff descriptions over time.
 
 Full list in [docs/limitations.md](docs/limitations.md). Read it
 before you quote a score.
