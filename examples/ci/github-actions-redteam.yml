@@ -1,0 +1,40 @@
+# Example: run agent-redteam as a CI gate in GitHub Actions.
+#
+# Copy this file into your own repo at .github/workflows/redteam.yml
+# and point --agent at your agent's import path. The run step fails
+# the build when the gate fails; the upload step runs either way
+# (if: always()) so the HTML report is on the run page exactly when
+# you need it most, which is when the gate just failed.
+
+name: agent-redteam
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  redteam:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install agent-redteam and your app
+        run: pip install agent-redteam -e .
+      - name: Run the prompt-injection pack as a gate
+        run: >
+          agent-redteam run
+          --agent my_app.agent:handle
+          --pack prompt-injection
+          --fail-on 0.0
+          --min-control-pass 1.0
+          --format html
+          --output redteam-report.html
+      - name: Upload the HTML report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: redteam-report
+          path: redteam-report.html

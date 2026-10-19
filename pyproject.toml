@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-redteam"
-version = "0.2.0"
-description = "Adversarial test harness for AI agent apps: labeled attack packs, a deterministic marker judge, and a score you can gate CI on."
+version = "0.3.0"
+description = "Adversarial test harness for AI agent apps: labeled attack packs, a deterministic marker judge, HTML reports, and a score you can gate CI on."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"

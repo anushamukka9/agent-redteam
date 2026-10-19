@@ -80,9 +80,21 @@ every time. What a marker judge cannot see is listed honestly in
 [docs/limitations.md](docs/limitations.md).
 
 **A score you can gate on.** The CLI exits 1 when the attack success
-rate is above `--fail-on` (default 0.0, any breach fails), so a red
-team run can be a CI step, not a ritual. Reports come out as a table,
-JSON, or markdown.
+rate is above `--fail-on` (default 0.0, any breach fails), and
+`--min-control-pass` adds the other half of the gate: fail when the
+guard starts refusing real work. So a red team run can be a CI step,
+not a ritual. Reports come out as a table, JSON, markdown, or one
+self-contained HTML page with the verdict, per-category breakdown,
+and every case result:
+
+```bash
+agent-redteam run --agent my_app.agent:handle --format html --output report.html
+```
+
+Agent output on that page is escaped, never rendered; a breached
+agent does not get to write the report. See
+[docs/ci.md](docs/ci.md) and the copy-paste workflow in
+`examples/ci/`.
 
 **Your own packs.** A pack is a JSON file. Plant canaries only you
 know in your agent's context, write cases that go after them, and

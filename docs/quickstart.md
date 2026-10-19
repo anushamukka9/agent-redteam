@@ -55,7 +55,13 @@ From the CLI, point at an import path:
 ```bash
 agent-redteam run --agent my_app.agent:handle --format json
 agent-redteam run --agent my_app.agent:handle --fail-on 0.2
+agent-redteam run --agent my_app.agent:handle --format html --output report.html
 ```
+
+The HTML run writes one self-contained report page (verdict, summary,
+per-category breakdown, every case) and still exits 1 when the gate
+fails. See [ci.md](ci.md) for the gate options and a copy-paste
+GitHub Actions workflow.
 
 The attribute after the colon can be a prompt callable, an agent
 object, or an agent class (it is instantiated with no arguments).

@@ -19,9 +19,10 @@ from agent_redteam.packs import (
     load_pack,
     load_pack_file,
 )
+from agent_redteam.report import gate_passed, render_html
 from agent_redteam.runner import load_agent, run_case, run_cases, run_pack
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 __all__ = [
     "AttackCase",
@@ -30,11 +31,13 @@ __all__ = [
     "PackNotFoundError",
     "RunReport",
     "VulnerableAgent",
+    "gate_passed",
     "judge",
     "list_packs",
     "load_agent",
     "load_pack",
     "load_pack_file",
+    "render_html",
     "run_case",
     "run_cases",
     "run_pack",

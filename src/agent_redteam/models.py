@@ -159,6 +159,16 @@ class RunReport:
             "results": [r.to_dict() for r in self.results],
         }
 
+    def to_html(self, fail_on: float = 0.0, min_control_pass: float | None = None) -> str:
+        """Render this report as one self-contained HTML page.
+
+        See agent_redteam.report for why every agent-controlled value
+        on the page is escaped.
+        """
+        from agent_redteam.report import render_html
+
+        return render_html(self, fail_on=fail_on, min_control_pass=min_control_pass)
+
     def to_markdown(self) -> str:
         lines = [
             f"# agent-redteam report: {self.agent_name} on {self.pack_name}",

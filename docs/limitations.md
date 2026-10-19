@@ -38,3 +38,8 @@ Read this before you rely on a score.
 - **Controls are marker based too.** A control passes when an
   answer marker appears, even if the rest of the answer is wrong.
   Controls catch refusal-happy guards; they do not grade quality.
+- **The HTML report shows previews, not full outputs.** The judge
+  caps each output preview at 200 characters, escaped as text. That
+  is enough to see why a case scored the way it did; it is not a
+  transcript. If you need full outputs, run from Python and keep
+  the outputs yourself.

@@ -34,6 +34,12 @@ roleplay reads differently from one spread across every family.
 while you are burning down a backlog, and put the number in the
 commit message when you do, so the relaxation is on the record.
 
+`--min-control-pass` adds the second half: fail when the control
+pass rate drops below the floor you set. The gate logic lives in
+`agent_redteam.report.gate_passed`, so the CLI exit code and the
+verdict printed on the HTML report can never disagree. Reporting
+and the full CI setup live in [ci.md](ci.md).
+
 ## Scoring the tool-poisoning pack
 
 The judge does not change for the second pack. What changes is
