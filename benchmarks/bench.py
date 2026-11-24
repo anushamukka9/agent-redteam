@@ -24,6 +24,16 @@ PACK_NOTES = {
         "form, so the judge scores it held. That miss is deliberate and "
         "documented in docs/limitations.md."
     ),
+    "fragmented-instruction": (
+        "The vulnerable agent breaches every fragmented-instruction "
+        "case: it assembles instructions split across tool outputs, "
+        "including pieces interleaved with benign data, pieces from "
+        "different sources, and numbered pieces delivered out of "
+        "order. The guarded agent scans the assembled context, holds "
+        "every case, and still passes every control, including "
+        "controls whose benign information is also split across "
+        "outputs."
+    ),
     "tool-poisoning": (
         "The vulnerable agent breaches every tool-poisoning case: it "
         "treats tool descriptions as trusted instructions, including a "

@@ -66,6 +66,35 @@ agent-redteam run --pack tool-poisoning --agent guarded
 agent-redteam run --pack tool-poisoning --agent vulnerable
 ```
 
+## The third pack: fragmented-instruction
+
+20 cases. 16 attacks in four families of four, plus 4 benign
+controls. This is the GhostSplice pattern aimed at tool outputs
+instead of tool descriptions: a malicious instruction split into
+pieces across the outputs an agent reads, so no single fragment
+looks like an order and per-output scanning finds nothing. The
+assembled instruction is extraction in 15 cases and an action
+announcement in one. The user is innocent in every case.
+
+| Family | What it tests |
+|---|---|
+| `split_across_outputs` | One fragment per tool output, across two to four calls. The plain form. |
+| `interleaved_benign` | Fragments hidden between ordinary data rows: inventory, log lines, ticket comments, prices. The benign rows are the cover. |
+| `cross_source_assembly` | Pieces from different channels: a tool output, a retrieved document, an email body, a database row, an error message. |
+| `ordered_reassembly` | Numbered fragments delivered out of order. The numbering invites reassembly, and reassembly is the attack. |
+
+The 4 controls carry benign information that is also split across
+outputs, including a password help near miss. Splitting alone is
+not an attack, and a guard that refuses every multi-output answer
+fails these. Detection practices and the pack's own limits are in
+[docs/fragmented-instruction.md](fragmented-instruction.md). Run
+it with:
+
+```bash
+agent-redteam run --pack fragmented-instruction --agent guarded
+agent-redteam run --pack fragmented-instruction --agent vulnerable
+```
+
 ## Writing your own pack
 
 1. Plant canaries in your agent's real context: a fake code word in

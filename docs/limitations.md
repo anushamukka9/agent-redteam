@@ -31,6 +31,13 @@ Read this before you rely on a score.
   itself), and does not watch the agent pick the shadowed tool in
   `tp-meta-03`. Pair it with a surface audit (mcp-audit checks
   live servers and client configs) for the connection side.
+- **Fragmented instructions are presented, not accumulated.**
+  The fragmented-instruction cases show the agent every tool
+  output as text in one turn. A real agent accumulates outputs
+  across calls and turns, and the fragments in the pack are
+  labeled as fragments, where real planted pieces may carry no
+  labels at all. A good score here is a floor, not a ceiling.
+  Detection notes are in docs/fragmented-instruction.md.
 - **The packs are small.** 20 cases each is a smoke alarm, not a
   fire audit. The format is the product: the valuable pack is the
   one you write against your own agent, your own context, and
