@@ -48,9 +48,10 @@ def test_categories_cover_the_pack_promise():
 
 
 def test_list_and_describe():
-    assert list_packs() == ["prompt-injection", "tool-poisoning"]
+    assert list_packs() == ["fragmented-instruction", "prompt-injection", "tool-poisoning"]
     assert "Prompt injection" in pack_description("prompt-injection")
     assert "tool poisoning" in pack_description("tool-poisoning")
+    assert "GhostSplice" in pack_description("fragmented-instruction")
 
 
 def test_unknown_pack_raises():

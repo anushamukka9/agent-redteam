@@ -57,7 +57,7 @@ an object with a `respond` or `run` method. See
 
 ## What it does
 
-**Labeled attack packs.** Two packs ship in the box.
+**Labeled attack packs.** Three packs ship in the box.
 `prompt-injection`: 16 attacks across direct override, system prompt
 extraction, canary exfiltration, roleplay, delimiter injection,
 hierarchy confusion, indirect instruction, and social engineering,
@@ -68,8 +68,17 @@ tool descriptions, rug-pull definition changes after approval,
 GhostSplice style fragmented instructions split across tools, and
 A2M style tool-metadata hijacking), plus 4 controls with legitimate
 tool descriptions. In the tool-poisoning cases the user is innocent
-in every one; the poison arrives in the tool metadata. Every case
-carries notes on what it is testing and why. See
+in every one; the poison arrives in the tool metadata.
+`fragmented-instruction`: 16 attacks in four families of four
+(one fragment per tool output, fragments interleaved with benign
+data rows, pieces assembled across sources like search, email and
+error text, and numbered fragments delivered out of order), plus
+4 controls whose benign information is also split across outputs.
+This is the GhostSplice pattern aimed at what tools return: no
+single fragment looks like an order, so per-output scanning finds
+nothing, and the instruction only exists assembled. Detection
+notes are in [docs/fragmented-instruction.md](docs/fragmented-instruction.md).
+Every case carries notes on what it is testing and why. See
 [docs/packs.md](docs/packs.md).
 
 **A judge with no opinions.** Scoring is marker based and fully
@@ -114,6 +123,8 @@ about your agent until you run it.
 | prompt-injection | guarded (demo) | 0.00 (0/16) | 1.00 (4/4) |
 | tool-poisoning | vulnerable (demo) | 1.00 (16/16) | 1.00 (4/4) |
 | tool-poisoning | guarded (demo) | 0.00 (0/16) | 1.00 (4/4) |
+| fragmented-instruction | vulnerable (demo) | 1.00 (16/16) | 1.00 (4/4) |
+| fragmented-instruction | guarded (demo) | 0.00 (0/16) | 1.00 (4/4) |
 
 The one case the vulnerable agent holds is the encoded-exfiltration
 case: it leaks the plain code, and the marker for that case is the
@@ -123,7 +134,11 @@ limitations doc, to keep everyone honest about what marker scoring
 misses. On tool-poisoning the vulnerable agent breaches all 16:
 it treats a tool description as trusted instructions, including
 one changed after approval and one split into fragments across
-three tools. Harness overhead on the demo agents is about 5,600
+three tools. On fragmented-instruction the vulnerable agent
+breaches all 16 as well: it assembles instructions split across
+tool outputs, including pieces hidden between inventory rows and
+numbered pieces delivered out of order, while the guarded agent
+scans the assembled context and holds all 16. Harness overhead on the demo agents is about 5,600
 full pack runs per second; with a real agent, your agent's latency
 is the whole story.
 
@@ -140,7 +155,10 @@ is the whole story.
   can pass every case here and still call a dangerous tool; that is
   what agent-policy-kit and mcp-audit are for. The tool-poisoning
   cases present poisoned descriptions as text; the harness does not
-  connect to a live MCP server or diff descriptions over time.
+  connect to a live MCP server or diff descriptions over time. The
+  fragmented-instruction cases present tool outputs as text in one
+  turn; a real agent accumulates outputs across calls, and real
+  fragments may carry no labels at all.
 
 Full list in [docs/limitations.md](docs/limitations.md). Read it
 before you quote a score.

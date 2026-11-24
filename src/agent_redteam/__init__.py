@@ -22,7 +22,7 @@ from agent_redteam.packs import (
 from agent_redteam.report import gate_passed, render_html
 from agent_redteam.runner import load_agent, run_case, run_cases, run_pack
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 __all__ = [
     "AttackCase",
